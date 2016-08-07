@@ -1,5 +1,6 @@
 package com.these3000.core.scenes;
 
+import com.these3000.core.entities.Tile;
 import com.these3000.core.graphics.Shader;
 import com.these3000.core.graphics.Texture;
 import com.these3000.core.graphics.VertexArray;
@@ -16,10 +17,8 @@ public class GroundTile extends Tile {
 
 	public GroundTile(String tex, float width, float height, int x, int y, float z) {
 
-		float res = width / height;
-
-		float cartX =  - x * (width /2);
-		float cartY =  - y * (height);
+		float cartX = -x * (width / 2);
+		float cartY = -y * (height);
 		_position = new Vector3f(cartX, cartY, 0);
 		_width = width;
 		_height = height;
@@ -38,8 +37,8 @@ public class GroundTile extends Tile {
 		};
 
 		float[] tcs = new float[] {
-		                            0, 0,
-			               			0, 1,
+									0, 0,
+									0, 1,
 									1, 1,
 									1, 0
 		};
@@ -61,13 +60,13 @@ public class GroundTile extends Tile {
 
 	public void draw() {
 		_tileTexture.bind();
-		Shader.BG.enable();
+		Shader.TILE.enable();
 		_tile.bind();
 		Vector3f isoPos = this.getIso();
-		Shader.BG.setUniformMat4f("vw_matrix",
+		Shader.TILE.setUniformMat4f("vw_matrix",
 				Matrix4f.translate(new Vector3f(isoPos.x, isoPos.y, 0.0f)));
 		_tile.draw();
-		Shader.BG.disable();
+		Shader.TILE.disable();
 		_tileTexture.unbind();
 
 	}

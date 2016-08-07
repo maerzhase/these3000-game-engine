@@ -1,4 +1,4 @@
-package com.these3000.core.scenes;
+package com.these3000.core.entities;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -18,8 +18,6 @@ public class Player {
 	private Texture texture;
 
 	private Vector3f position = new Vector3f();
-	private float rot;
-	private float delta = 0.0f;
 
 	private float speed = 1;
 	private float jump = 0;
@@ -105,19 +103,19 @@ public class Player {
 	}
 
 	public void render() {
-		Shader.BIRD.enable();
+		Shader.PLAYER.enable();
 
-		Vector3f rotPos = position.rotate(new Vector3f(0f, 0f, 1f), 45);
+		// Vector3f rotPos = position.rotate(new Vector3f(0f, 0f, 1f), 45);
 		// rotPos = rotPos.rotate(new Vector3f(1f,0f,0f), -60)
 		Matrix4f ml_matrix = Matrix4f.translate(new Vector3f(getIsoX(), getIsoY(), 0));
 		// ml_matrix = Matrix4f.translate(getPos(45));
 
 		// ml_matrix = ml_matrix.multiply(Matrix4f.rotateZ(-45));
 		// ml_matrix = ml_matrix.multiply(Matrix4f.rotateX(-60));
-		Shader.BIRD.setUniformMat4f("ml_matrix", ml_matrix);
+		Shader.PLAYER.setUniformMat4f("ml_matrix", ml_matrix);
 		texture.bind();
 		mesh.render();
-		Shader.BIRD.disable();
+		Shader.PLAYER.disable();
 	}
 
 	public float getIsoY() {

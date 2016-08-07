@@ -1,15 +1,9 @@
 package com.these3000.core.scenes;
 
-import java.util.Random;
-
+import com.these3000.core.entities.Player;
+import com.these3000.core.entities.Tile;
+import com.these3000.core.entities.Wall;
 import com.these3000.core.graphics.Shader;
-import com.these3000.core.graphics.Texture;
-import com.these3000.core.graphics.VertexArray;
-import com.these3000.core.input.Input;
-import com.these3000.core.maths.Matrix4f;
-import com.these3000.core.maths.Vector3f;
-
-import static org.lwjgl.glfw.GLFW.*;
 
 public class Scene1 {
 
@@ -57,7 +51,7 @@ public class Scene1 {
 		player.setMap(map);
 		player.update();
 
-		Shader.BG.setUniform2f("bird", player.getIsoX(), player.getIsoY());
+		Shader.TILE.setUniform2f("player", player.getIsoX(), player.getIsoY());
 	}
 
 	public void render() {

@@ -1,11 +1,42 @@
 package com.these3000.core;
 
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.*;
-import static org.lwjgl.system.MemoryUtil.*;
-
-import java.nio.ByteBuffer;
+import static org.lwjgl.glfw.GLFW.GLFW_CONTEXT_VERSION_MAJOR;
+import static org.lwjgl.glfw.GLFW.GLFW_CONTEXT_VERSION_MINOR;
+import static org.lwjgl.glfw.GLFW.GLFW_OPENGL_CORE_PROFILE;
+import static org.lwjgl.glfw.GLFW.GLFW_OPENGL_FORWARD_COMPAT;
+import static org.lwjgl.glfw.GLFW.GLFW_OPENGL_PROFILE;
+import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
+import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
+import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
+import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
+import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
+import static org.lwjgl.glfw.GLFW.glfwInit;
+import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
+import static org.lwjgl.glfw.GLFW.glfwPollEvents;
+import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
+import static org.lwjgl.glfw.GLFW.glfwShowWindow;
+import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
+import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.glfw.GLFW.glfwWindowHint;
+import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.GL_NO_ERROR;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_TRUE;
+import static org.lwjgl.opengl.GL11.GL_VERSION;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glGetError;
+import static org.lwjgl.opengl.GL11.glGetString;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -13,7 +44,6 @@ import org.lwjgl.opengl.GL;
 import com.these3000.core.graphics.Shader;
 import com.these3000.core.input.Input;
 import com.these3000.core.maths.Matrix4f;
-import com.these3000.core.maths.Vector3f;
 import com.these3000.core.scenes.Scene1;
 
 public class Main {
@@ -79,16 +109,15 @@ public class Main {
 		float z2 = mWidth * 2;
 
 		Matrix4f pr_matrix = Matrix4f.orthographic(x1, x2, y1, y2, z1, z2);
-		// pr_matrix = pr_matrix.multiply(Matrix4f.translate(new Vector3f(5, 5, 0)));
-		// pr_matrix = pr_matrix.multiply(Matrix4f.translate(new Vector3f(-5, -5, 0)));
+
+		// render isometric
 		// pr_matrix = pr_matrix.multiply(Matrix4f.rotateX(60));
 		// pr_matrix = pr_matrix.multiply(Matrix4f.rotateZ(45));
-		// pr_matrix = pr_matrix.multiply(Matrix4f.translate(new Vector3f(5, 5, 0)));
 
-		Shader.BG.setUniformMat4f("pr_matrix", pr_matrix);
-		Shader.BG.setUniform1i("tex", 1);
-		Shader.BIRD.setUniformMat4f("pr_matrix", pr_matrix);
-		Shader.BIRD.setUniform1i("tex", 1);
+		Shader.TILE.setUniformMat4f("pr_matrix", pr_matrix);
+		Shader.TILE.setUniform1i("tex", 1);
+		Shader.PLAYER.setUniformMat4f("pr_matrix", pr_matrix);
+		Shader.PLAYER.setUniform1i("tex", 1);
 		scene = new Scene1();
 		run();
 
