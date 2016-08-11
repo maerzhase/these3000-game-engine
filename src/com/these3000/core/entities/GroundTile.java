@@ -1,6 +1,5 @@
-package com.these3000.core.scenes;
+package com.these3000.core.entities;
 
-import com.these3000.core.entities.Tile;
 import com.these3000.core.graphics.Shader;
 import com.these3000.core.graphics.Texture;
 import com.these3000.core.graphics.VertexArray;
@@ -59,14 +58,15 @@ public class GroundTile extends Tile {
 	}
 
 	public void draw() {
-		_tileTexture.bind();
-		Shader.TILE.enable();
-		_tile.bind();
 		Vector3f isoPos = this.getIso();
-		Shader.TILE.setUniformMat4f("vw_matrix",
+
+		_tileTexture.bind();
+		Shader._TILE.enable();
+		_tile.bind();
+		Shader._TILE.setUniformMat4f("vw_matrix",
 				Matrix4f.translate(new Vector3f(isoPos.x, isoPos.y, 0.0f)));
 		_tile.draw();
-		Shader.TILE.disable();
+		Shader._TILE.disable();
 		_tileTexture.unbind();
 
 	}

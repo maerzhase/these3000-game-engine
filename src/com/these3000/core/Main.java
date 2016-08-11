@@ -114,10 +114,10 @@ public class Main {
 		// pr_matrix = pr_matrix.multiply(Matrix4f.rotateX(60));
 		// pr_matrix = pr_matrix.multiply(Matrix4f.rotateZ(45));
 
-		Shader.TILE.setUniformMat4f("pr_matrix", pr_matrix);
-		Shader.TILE.setUniform1i("tex", 1);
-		Shader.PLAYER.setUniformMat4f("pr_matrix", pr_matrix);
-		Shader.PLAYER.setUniform1i("tex", 1);
+		Shader._TILE.setUniformMat4f("pr_matrix", pr_matrix);
+		Shader._TILE.setUniform1i("tex", 1);
+		Shader._PLAYER.setUniformMat4f("pr_matrix", pr_matrix);
+		Shader._PLAYER.setUniform1i("tex", 1);
 		scene = new Scene1();
 		run();
 

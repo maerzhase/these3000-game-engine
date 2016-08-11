@@ -11,27 +11,27 @@ import com.these3000.core.maths.Vector3f;
 
 public class Player {
 
-	private float width = 64f;
-	private float height = 64f;
-	private float Z = 20f;
-	private VertexArray mesh;
-	private Texture texture;
+	private float _width = 64f;
+	private float _height = 64f;
+	private float _Z = 20f;
+	private VertexArray _mesh;
+	private Texture _texture;
 
-	private Vector3f position = new Vector3f();
+	private Vector3f _position = new Vector3f();
 
-	private float speed = 1;
-	private float jump = 0;
-	private float lastX = 0;
-	private float lastY = 0;
-	private boolean isJumping = false;
-	int[][] map = new int[8][8];
+	private float _speed = 1;
+	private float _jump = 0;
+	private float _lastX = 0;
+	private float _lastY = 0;
+	private boolean _isJumping = false;
+	int[][] _map = new int[8][8];
 
 	public Player() {
 		float[] vertices = new float[] {
-										-width / 2.0f, -height / 2.0f, Z,
-										-width / 2.0f, height / 2.0f, Z,
-										width / 2.0f, height / 2.0f, Z,
-										width / 2.0f, -height / 2.0f, Z
+										-_width / 2.0f, -_height / 2.0f, _Z,
+										-_width / 2.0f, _height / 2.0f, _Z,
+										_width / 2.0f, _height / 2.0f, _Z,
+										_width / 2.0f, -_height / 2.0f, _Z
 		};
 
 		byte[] indices = new byte[] {
@@ -46,56 +46,56 @@ public class Player {
 									1, 1
 		};
 
-		mesh = new VertexArray(vertices, indices, tcs);
-		texture = new Texture("res/char.png");
+		_mesh = new VertexArray(vertices, indices, tcs);
+		_texture = new Texture("res/char.png");
 	}
 
 	public void setMap(int[][] map) {
-		this.map = map;
+		this._map = map;
 	}
 
 	public void update() {
 
-		if (isJumping && lastY <= position.y) {
-			jump -= speed / 10;
+		if (_isJumping && _lastY <= _position.y) {
+			_jump -= _speed / 10;
 		} else {
-			isJumping = false;
-			jump = 0;
+			_isJumping = false;
+			_jump = 0;
 		}
-		if (!isJumping) {
-			lastX = position.x;
-			lastY = position.y;
+		if (!_isJumping) {
+			_lastX = _position.x;
+			_lastY = _position.y;
 		}
 
-		if (Input.isKeyDown(GLFW_KEY_SPACE) && !isJumping) {
-			jump = speed * 2;
-			lastX = position.x;
-			lastY = position.y;
-			isJumping = true;
+		if (Input.isKeyDown(GLFW_KEY_SPACE) && !_isJumping) {
+			_jump = _speed * 2;
+			_lastX = _position.x;
+			_lastY = _position.y;
+			_isJumping = true;
 		}
 
 		if (Input.isKeyDown(GLFW_KEY_UP))
-			position.y += speed;
+			_position.y += _speed;
 		if (Input.isKeyDown(GLFW_KEY_DOWN))
-			position.y -= speed;
+			_position.y -= _speed;
 		if (Input.isKeyDown(GLFW_KEY_LEFT))
-			position.x -= speed;
+			_position.x -= _speed;
 		if (Input.isKeyDown(GLFW_KEY_RIGHT))
-			position.x += speed;
+			_position.x += _speed;
 
-		position.y += jump;
+		_position.y += _jump;
 
 		// int cordX = (int) (getX());
 		// int cordY = (int) (getY());
 		int cordX = (int) (((getCartX() * -1) + 32) / 32);
 		int cordY = (int) (((getCartY() * -1) + 32) / 32);
-		int mapIndex = 1;
+		int mapIndex = 0;
 		if (cordX < 8 && cordX < 8) {
-			mapIndex = map[cordX][cordY];
+			mapIndex = _map[cordX][cordY];
 		}
-		if (mapIndex == 1) {
-			position.x = lastX;
-			position.y = lastY;
+		if (mapIndex > 0) {
+			_position.x = _lastX;
+			_position.y = _lastY;
 		}
 		System.out.println(mapIndex + " x: " + cordX + " y: " + cordY);
 
@@ -103,7 +103,7 @@ public class Player {
 	}
 
 	public void render() {
-		Shader.PLAYER.enable();
+		Shader._PLAYER.enable();
 
 		// Vector3f rotPos = position.rotate(new Vector3f(0f, 0f, 1f), 45);
 		// rotPos = rotPos.rotate(new Vector3f(1f,0f,0f), -60)
@@ -112,19 +112,19 @@ public class Player {
 
 		// ml_matrix = ml_matrix.multiply(Matrix4f.rotateZ(-45));
 		// ml_matrix = ml_matrix.multiply(Matrix4f.rotateX(-60));
-		Shader.PLAYER.setUniformMat4f("ml_matrix", ml_matrix);
-		texture.bind();
-		mesh.render();
-		Shader.PLAYER.disable();
+		Shader._PLAYER.setUniformMat4f("ml_matrix", ml_matrix);
+		_texture.bind();
+		_mesh.render();
+		Shader._PLAYER.disable();
 	}
 
 	public float getIsoY() {
-		float isoY = (position.x + position.y) / 2;
+		float isoY = (_position.x + _position.y) / 2;
 		return isoY;
 	}
 
 	public float getIsoX() {
-		float isoX = position.x - position.y;
+		float isoX = _position.x - _position.y;
 		return isoX;
 	}
 
@@ -147,16 +147,16 @@ public class Player {
 	}
 
 	public float getY() {
-		return position.y;
+		return _position.y;
 	}
 
 	public float getX() {
 
-		return position.x;
+		return _position.x;
 	}
 
 	public float getSize() {
-		return width;
+		return _width;
 	}
 
 }

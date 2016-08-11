@@ -1,5 +1,6 @@
 package com.these3000.core.scenes;
 
+import com.these3000.core.entities.GroundTile;
 import com.these3000.core.entities.Player;
 import com.these3000.core.entities.Tile;
 import com.these3000.core.entities.Wall;
@@ -16,10 +17,10 @@ public class Scene1 {
 								{ 0, 0, 0, 0, 0, 0, 0, 0 },
 								{ 0, 0, 0, 0, 0, 0, 0, 0 },
 								{ 0, 0, 0, 0, 0, 0, 0, 0 },
-								{ 0, 0, 0, 1, 1, 0, 0, 0 },
-								{ 0, 0, 0, 1, 1, 0, 0, 0 },
-								{ 0, 0, 0, 0, 0, 0, 0, 0 },
-								{ 1, 1, 1, 1, 1, 0, 0, 0 },
+								{ 0, 0, 0, 3, 1, 0, 0, 0 },
+								{ 0, 0, 0, 2, 3, 0, 0, 0 },
+								{ 0, 0, 0, 2, 0, 0, 0, 0 },
+								{ 3, 1, 1, 4, 3, 0, 0, 0 },
 								{ 0, 0, 0, 0, 0, 0, 0, 0, },
 
 	};
@@ -32,11 +33,26 @@ public class Scene1 {
 				Tile tile = null;
 				int mapIndex = map[x][y];
 				System.out.println(x + " " + y);
-				if (mapIndex == 1) {
-					tile = new Wall("res/wall2.png", 64, 32, x, y, 0);
-				}
-				else {
-					tile = new GroundTile("res/tile1.png", 64, 32, x, y, 0);
+				switch (mapIndex) {
+				case 1:
+					tile = new Wall("res/earth1_wall_right.png", 64, 32, x, y, 0);
+
+					break;
+				case 2:
+					tile = new Wall("res/earth1_wall_left.png", 64, 32, x, y, 0);
+
+					break;
+				case 3:
+					tile = new Wall("res/earth1_wall_corner_right_left.png", 64, 32, x, y, 0);
+
+					break;
+				case 4:
+					tile = new Wall("res/earth1_wall_corner_left_right.png", 64, 32, x, y, 0);
+
+					break;
+				default:
+					tile = new GroundTile("res/grass1_floor.png", 64, 32, x, y, 0);
+					break;
 				}
 
 				tiles[x][y] = tile;
@@ -51,7 +67,7 @@ public class Scene1 {
 		player.setMap(map);
 		player.update();
 
-		Shader.TILE.setUniform2f("player", player.getIsoX(), player.getIsoY());
+		Shader._TILE.setUniform2f("player", player.getIsoX(), player.getIsoY());
 	}
 
 	public void render() {
